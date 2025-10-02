@@ -17,7 +17,7 @@ It predicts whether a loan application will be **approved** or **not approved** 
 ## 📸 Demo  
 
 ### Video Demo  
-▶️ [Watch Demo on YouTube](https://youtube.com/your-video-link)   
+▶️ [Watch Demo on YouTube](https://youtu.be/M_VdpW8XUQQ)   
 
 ---
 
