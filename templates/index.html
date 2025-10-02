@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Loan Approval Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --glass: rgba(255,255,255,0.05);
+      --accent1: linear-gradient(135deg,#6a11cb,#2575fc);
+      --muted: #94a3b8;
+      --success: #10b981;
+      --danger: #ef4444;
+      --radius: 14px;
+      font-family: 'Inter', sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(1200px at 20% 20%, rgba(106,17,203,0.12), transparent),
+                  radial-gradient(800px at 80% 80%, rgba(37,117,252,0.10), transparent),
+                  var(--bg);
+      color: #e6eef8;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 16px;
+    }
+    h1, h2, h3 {
+      margin: 0;
+      font-weight: 700;
+    }
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .card {
+      background: var(--glass);
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+      backdrop-filter: blur(12px);
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 56px; height: 56px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 12px;
+      background-image: var(--accent1);
+      font-weight: 800; font-size: 20px; color: white;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    }
+    p.lead { color: var(--muted); margin-top: 4px; }
+
+    /* about + tech stack */
+    .about, .tech-stack {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .stack-list {
+      display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px;
+    }
+    .stack-item {
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    .stack-item:hover {
+      background: var(--accent1);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* form */
+    form .grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    }
+    label {
+      font-size: 13px; color: var(--muted); margin-bottom: 6px; display: block;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: inherit;
+      font-size: 14px;
+      outline: none;
+    }
+    input:focus, select:focus {
+      border-color: #6a11cb;
+      box-shadow: 0 0 12px rgba(106,17,203,0.4);
+    }
+    .actions {
+      display: flex; gap: 12px; align-items: center; margin-top: 18px;
+    }
+    .btn {
+      padding: 10px 14px; border-radius: 10px; border: none;
+      font-weight: 600; cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn.primary {
+      background: var(--accent1); color: white;
+      box-shadow: 0 6px 20px rgba(106,17,203,0.25);
+    }
+    .btn.primary:hover { transform: translateY(-2px); }
+    .btn.ghost {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--muted);
+    }
+
+    /* result */
+    .result-card { text-align: center; }
+    .prediction {
+      font-size: 26px; font-weight: 700; margin-top: 6px;
+    }
+    .prediction.approved { color: var(--success); }
+    .prediction.rejected { color: var(--danger); }
+    .meta { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 20px;
+    }
+    /* Dropdown fix */
+  select {
+  background-color: rgba(255,255,255,0.04);
+  color: #e6eef8;
+  appearance: none; /* uniform look across browsers */
+}
+
+  select option {
+  background-color: #1e293b; /* dark background for dropdown items */
+  color: #f1f5f9;           /* readable light text */
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="card">
+      <header>
+        <div class="logo">AI</div>
+        <div>
+          <h1>Loan Approval Predictor</h1>
+          <p class="lead">A modern ML-powered app built with FastAPI + ML models</p>
+        </div>
+      </header>
+    </div>
+
+    <!-- About Section -->
+    <div class="card about">
+      <h2>About This Project</h2>
+      <p>
+        This Loan Approval Predictor uses advanced Machine Learning models served with FastAPI to predict whether a loan application will be approved.
+        Users can input applicant details and instantly receive a prediction, along with extra insights.
+      </p>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="card tech-stack">
+      <h2>Tech Stack</h2>
+      <div class="stack-list">
+        <div class="stack-item">Python</div>
+        <div class="stack-item">FastAPI</div>
+        <div class="stack-item">Scikit-Learn</div>
+        <div class="stack-item">Pandas</div>
+        <div class="stack-item">NumPy</div>
+        <div class="stack-item">Joblib</div>
+        <div class="stack-item">HTML/CSS/JS</div>
+        <div class="stack-item">Docker</div>
+      </div>
+    </div>
+
+    <!-- Form Section -->
+    <div class="card">
+      <h2>Loan Application Form</h2>
+      <form id="loan-form">
+        <div class="grid">
+          <div>
+            <label for="person_age">Age</label>
+            <input id="person_age" name="person_age" type="number" required>
+          </div>
+          <div>
+            <label for="person_gender">Gender</label>
+            <select id="person_gender" name="person_gender" required>
+              <option value="">Select</option>
+              <option>male</option>
+              <option>female</option>
+            </select>
+          </div>
+          <div>
+            <label for="person_education">Education</label>
+            <select id="person_education" name="person_education" required>
+              <option value="">Select</option>
+              <option>Bachelor</option>
+              <option>Associate</option>
+              <option>High School</option>
+              <option>Master</option>
+              <option>Doctorate</option>
+            </select>
+          </div>
+          <div>
+            <label for="person_income">Annual Income</label>
+            <input id="person_income" name="person_income" type="number" required>
+          </div>
+          <div>
+            <label for="person_home_ownership">Home Ownership</label>
+            <select id="person_home_ownership" name="person_home_ownership" required>
+              <option value="">Select</option>
+              <option>RENT</option>
+              <option>OWN</option>
+              <option>MORTGAGE</option>
+            </select>
+          </div>
+          <div>
+            <label for="person_emp_exp">Employment Years</label>
+            <input id="person_emp_exp" name="person_emp_exp" type="number" required>
+          </div>
+          <div>
+            <label for="loan_amnt">Loan Amount</label>
+            <input id="loan_amnt" name="loan_amnt" type="number" required>
+          </div>
+          <div>
+            <label for="loan_intent">Loan Purpose</label>
+            <select id="loan_intent" name="loan_intent" required>
+              <option value="">Select</option>
+              <option>PERSONAL</option>
+              <option>EDUCATION</option>
+              <option>MEDICAL</option>
+              <option>VENTURE</option>
+              <option>HOMEIMPROVEMENT</option>
+              <option>DEBTCONSOLIDATION</option>
+            </select>
+          </div>
+          <div>
+            <label for="loan_int_rate">Loan Interest Rate</label>
+            <input type="number" name="loan_int_rate" id="loan_int_rate" step="0.01" min="0" max="1" required>
+          </div>
+          <div>
+            <label for="cb_person_cred_hist_length">Credit History Length</label>
+            <input id="cb_person_cred_hist_length" name="cb_person_cred_hist_length" type="number" required>
+          </div>
+          <div>
+            <label for="credit_score">Credit Score</label>
+            <input id="credit_score" name="credit_score" type="number" required>
+          </div>
+          <div>
+            <label for="previous_loan_defaults_on_file">Previous Defaults</label>
+            <select id="previous_loan_defaults_on_file" name="previous_loan_defaults_on_file" required>
+              <option value="">Select</option>
+              <option>No</option>
+              <option>Yes</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn primary">Predict</button>
+          <button type="reset" class="btn ghost">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Result -->
+    <div class="card result-card">
+      <h2>Prediction Result</h2>
+      <div class="prediction" id="predictionText">—</div>
+      <div class="meta" id="metaArea">
+        <div id="scoreMeta">Score: —</div>
+        <div id="ratioMeta">Loan/Income: —</div>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--muted)" id="rawResponse"></div>
+    </div>
+
+    <footer>
+      Built with ❤️ using FastAPI & Machine Learning
+    </footer>
+  </div>
+
+  <script>
+    const API_URL = '/predict';
+    const form = document.getElementById('loan-form');
+    const predictionText = document.getElementById('predictionText');
+    const rawResponse = document.getElementById('rawResponse');
+    const scoreMeta = document.getElementById('scoreMeta');
+    const ratioMeta = document.getElementById('ratioMeta');
+
+    function computeLoanRatio(loan, income){
+      if(!income || income==0) return '—';
+      return ((loan / income) * 100).toFixed(2) + '%';
+    }
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const payload = Object.fromEntries(new FormData(form).entries());
+      payload.person_age = parseInt(payload.person_age);
+      payload.person_income = parseInt(payload.person_income);
+      payload.person_emp_exp = parseInt(payload.person_emp_exp);
+      payload.loan_amnt = parseInt(payload.loan_amnt);
+      payload.loan_int_rate = parseFloat(payload.loan_int_rate);
+      payload.cb_person_cred_hist_length = parseInt(payload.cb_person_cred_hist_length);
+      payload.credit_score = parseInt(payload.credit_score);
+
+      scoreMeta.textContent = "Score: " + payload.credit_score;
+      ratioMeta.textContent = "Loan/Income: " + computeLoanRatio(payload.loan_amnt, payload.person_income);
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        rawResponse.textContent = JSON.stringify(json);
+
+        let label = '';
+        if(json?.Prediction){
+          label = Array.isArray(json.Prediction) ? json.Prediction[0] : json.Prediction;
+        } else if(json?.prediction){
+          label = json.prediction;
+        } else { label = 'Unknown'; }
+
+        predictionText.textContent = label;
+        predictionText.classList.remove('approved','rejected');
+        if(String(label).toLowerCase().includes('approved')) predictionText.classList.add('approved');
+        else predictionText.classList.add('rejected');
+      } catch(err){
+        rawResponse.textContent = err.message;
+        predictionText.textContent = 'Error';
+        predictionText.classList.add('rejected');
+      }
+    });
+  </script>
+</body>
+</html>
